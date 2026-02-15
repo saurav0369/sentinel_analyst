@@ -16,7 +16,8 @@ Sentinel is a production-grade Streamlit prototype designed to function as an au
 
 ### Prerequisites
 - Python 3.9 or higher
-- An OpenAI API Key (Optional, for live data. Demo mode included.)
+- **[Ollama](https://ollama.com/)** installed and running.
+- A model pulled (e.g., `ollama pull llama3`).
 
 ### Setup
 1. **Clone the repository** (if applicable) or download the source.
@@ -35,22 +36,27 @@ Sentinel is a production-grade Streamlit prototype designed to function as an au
 
 ## 🖥️ Usage
 
-1. **Run the Application**:
+1. **Start Ollama**:
+   Ensure your local LLM server is running:
+   ```bash
+   ollama serve
+   ```
+   *Make sure you have pulled a model like `ollama pull llama3`.*
+
+2. **Run the Application**:
    ```bash
    streamlit run app.py
    ```
-2. **Access the Dashboard**:
-   The app will open in your browser at `http://localhost:8501`.
 3. **Analyze**:
-   - Enter your OpenAI API Key in the sidebar (or leave blank to try the **Demo Mode** with mock data).
-   - Upload a PDF (e.g., Apple's 10-K).
-   - Watch Sentinel parse and analyze the document in real-time.
+   - Select your local model in the sidebar.
+   - Upload a PDF.
+   - Sentinel will analyze it completely offline.
 
 ## 📂 Project Structure
 ```
 sentinel_analyst/
 ├── app.py              # Main Dashboard UI & Styling
-├── analysis.py         # AI Logic & Prompt Engineering
+├── analysis.py         # AI Logic (Ollama Integration)
 ├── utils.py            # PDF Processing Utilities
 ├── requirements.txt    # Python Dependencies
 ├── sample_data/        # Place your test PDFs here
@@ -58,10 +64,10 @@ sentinel_analyst/
 ```
 
 ## 🛡️ Technical Details
-- **Frontend**: Streamlit with custom CSS injection for the "Fintech Terminal" aesthetic.
+- **Frontend**: Streamlit with custom CSS.
+- **Backend (AI)**: **Ollama** (Local Inference) - No API keys required.
 - **Parsing**: `pypdf` for robust text extraction.
-- **Caching**: `@st.cache_data` ensures instant reloading of analyzed files.
-- **Architecture**: Modular separation of concerns (UI vs. Logic vs. Utils).
+- **Privacy**: Zero data leaves your machine.
 
 ---
 *Created by Antigravity.*

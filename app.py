@@ -115,11 +115,12 @@ st.markdown("""
 # -----------------------------------------------------------------------------
 with st.sidebar:
     st.title("🦅 Sentinel")
-    st.caption("Financial Superintelligence v0.1")
+    st.caption("Financial Superintelligence (Local)")
     st.markdown("---")
     
-    api_key = st.text_input("OpenAI API Key", type="password", placeholder="sk-...")
-    st.caption("Leave empty to use Demo Mode (Mock Data).")
+    st.markdown("### 🤖 Local Engine")
+    model_name = st.selectbox("Select Model", ["llama3", "mistral", "gemma:7b", "phi3"], index=0)
+    st.caption("Ensure Ollama is running (`ollama serve`)")
     
     uploaded_file = st.file_uploader("Upload Financial Document", type=["pdf"])
     
@@ -127,7 +128,7 @@ with st.sidebar:
     analysis_depth = st.select_slider("Analysis Depth", options=["Quick Scan", "Deep Dive", "Forensic"], value="Deep Dive")
     
     st.markdown("---")
-    st.info("🔒 Data is processed locally in memory. Keys are not stored.")
+    st.info("🔒 Data is processed LOCALLY. No external APIs.")
 
 # -----------------------------------------------------------------------------
 # MAIN LOGIC
@@ -135,9 +136,9 @@ with st.sidebar:
 
 # Cache the analysis to avoid re-running on interactions
 @st.cache_data(show_spinner=False)
-def analyze_pdf(file_bytes, key):
+def analyze_pdf(file_bytes, model):
     # Setup Analyst
-    analyst = SentinelAnalyst(api_key=key)
+    analyst = SentinelAnalyst(model_name=model)
     
     # 1. Extract Text
     text_content = extract_text_from_pdf(io.BytesIO(file_bytes))
@@ -151,10 +152,10 @@ if not uploaded_file:
     # LANDING STATE
     st.markdown("# 🔍 Market Intelligence Terminal")
     st.markdown("""
-    ### Ready to Analyze
+    ### Ready to Analyze (Independent Mode)
     Upload an **SEC 10-K**, **Earnings Transcript**, or **Research Report**.
     
-    *Sentinel uses advanced LLMs to extract:*
+    *Sentinel uses YOUR local LLM to extract:*
     - 🚩 Hidden Risks & Red Flags
     - 🚀 Alpha & Growth Drivers
     - ⚖️ Institutional Buy/Sell Verdicts
@@ -162,11 +163,11 @@ if not uploaded_file:
     
     col1, col2, col3 = st.columns(3)
     with col1:
-        st.markdown('<div class="metric-card"><h4>System Status</h4><p>🟢 Online</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="metric-card"><h4>System Status</h4><p>🟢 Offline/Local</p></div>', unsafe_allow_html=True)
     with col2:
-        st.markdown('<div class="metric-card"><h4>Model Engine</h4><p>GPT-4 Turbo</p></div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="metric-card"><h4>Model Engine</h4><p>{model_name}</p></div>', unsafe_allow_html=True)
     with col3:
-        st.markdown('<div class="metric-card"><h4>Market Context</h4><p>Live Feed</p></div>', unsafe_allow_html=True)
+        st.markdown('<div class="metric-card"><h4>Privacy</h4><p>Air-Gapped</p></div>', unsafe_allow_html=True)
 
 else:
     # ANALYZING STATE
@@ -174,10 +175,10 @@ else:
     
     st.markdown(f"## 📄 Analyzing: `{uploaded_file.name}`")
     
-    with st.spinner("extracting intelligence..."):
+    with st.spinner(f"extracting intelligence using {model_name}..."):
         # We pass file_bytes to be cacheable (file objects aren't always hashable well)
         bytes_data = uploaded_file.getvalue()
-        results = analyze_pdf(bytes_data, api_key)
+        results = analyze_pdf(bytes_data, model_name)
         
     if "error" in results:
         st.error(results["error"])
