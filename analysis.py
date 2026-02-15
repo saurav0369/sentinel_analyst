@@ -36,7 +36,7 @@ class SentinelAnalyst:
         - "strategic_summary": A 3-sentence executive summary.
         - "red_flags": A list of 3-5 critical risks, hidden liabilities, or negative tone shifts. Be specific.
         - "alpha_drivers": A list of 3-5 unique growth drivers or competitive advantages.
-        - "verdict": One of "BUY", "SELL", or "WATCH".
+        - "verdict":created One of "BUY", "SELL", or "WATCH".
         - "verdict_reasoning": A concise thesis (2 sentences) justifying the verdict.
         
         Do not use markdown in the JSON values. Keep it raw text.
@@ -94,9 +94,9 @@ class SentinelAnalyst:
                 else:
                     raise e
         
-        # ------------------------------------------------------------------
+       
         # MOCK IMPLEMENTATION (For Demo Purposes Only)
-        # ------------------------------------------------------------------
+        
         # If no key is provided, we return a high-fidelity mock to show the UI.
         import time
         time.sleep(2) # Simulate thinking
