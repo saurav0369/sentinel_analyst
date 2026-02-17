@@ -69,9 +69,9 @@ class SentinelAnalyst:
         Real implementation wrapper. If we had the library installed and key, this would run.
         """
         
-        # ------------------------------------------------------------------
+    
         # REAL IMPLEMENTATION BLOCK (Uncomment and ensure libs are installed)
-        # ------------------------------------------------------------------
+    
         if self.provider == "openai" and self.api_key:
             try:
                 from openai import OpenAI
