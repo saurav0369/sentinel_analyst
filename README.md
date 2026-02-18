@@ -64,7 +64,7 @@ sentinel_analyst/
 ```
 
 ## 🛡️ Technical Details
-- **Frontend**: Streamlit with custom CSS.
+- **Frontend**: Streamlit with modular CSS (`styles.py`) and tabbed interface.
 - **Backend (AI)**: **Ollama** (Local Inference) - No API keys required.
 - **Parsing**: `pypdf` for robust text extraction.
 - **Privacy**: Zero data leaves your machine.
