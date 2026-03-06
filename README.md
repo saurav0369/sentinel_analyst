@@ -70,4 +70,4 @@ sentinel_analyst/
 - **Privacy**: Zero data leaves your machine.
 
 ---
-*Created by Antigravity.*
+
